@@ -89,11 +89,11 @@ public class Hashtable<K, V> {
 		 * in the allocated space, so for now we'll reference a method that
 		 * hasn't been created.
 		 */
-		if (entries.length == ++position) {
+		if (entries.length == position) {
 			// TODO Add grow();
 		}
 
-		entries[position] = new Entry<K, V>(key, value);
+		entries[position++] = new Entry<K, V>(key, value);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class Hashtable<K, V> {
 		V foundVal = null;
 
 		if (key != null) {
-			for (int i = 0; i < entries.length; i++) {
+			for (int i = 0; i < position; i++) {
 				if (key.equals(entries[i].getKey())) {
 					foundVal = entries[i].getValue();
 				}
@@ -112,5 +112,14 @@ public class Hashtable<K, V> {
 		}
 
 		return foundVal;
+	}
+
+	/**
+	 * To assist with some visibility to the consuming code, we'll want to be
+	 * able to provide a number of elements back. In the java.util.Hashtable,
+	 * this is the size() method.
+	 */
+	public int size() {
+		return position;
 	}
 }
