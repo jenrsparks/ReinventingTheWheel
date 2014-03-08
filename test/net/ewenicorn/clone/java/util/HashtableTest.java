@@ -49,4 +49,11 @@ public class HashtableTest {
 		assertNull(foundVal);
 	}
 
+	@Test
+	public void testPutPastInitialAllocation() {
+		table = new Hashtable<String, Integer>(1);
+		table.put("1", Integer.valueOf(1));
+		table.put("2", Integer.valueOf(2));
+		assertEquals(2, table.size());
+	}
 }
