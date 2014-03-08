@@ -90,9 +90,14 @@ public class Hashtable<K, V> {
 		 * hasn't been created.
 		 */
 		if (entries.length == position) {
-			// TODO Add grow();
+			grow();
 		}
 
+		/**
+		 * Lest we forget, we have to make sure the entry isn't already in the
+		 * entries array! We'll need a contains(key) check added to the internal
+		 * Entry object.
+		 */
 		entries[position++] = new Entry<K, V>(key, value);
 	}
 
@@ -122,4 +127,37 @@ public class Hashtable<K, V> {
 	public int size() {
 		return position;
 	}
+
+	/**
+	 * Next we need to tackle the reallocation of size available for the entries
+	 * array. grow() and shrink() will each scale the array as necessary using a
+	 * shared method called resize.
+	 */
+	private void resize(int newSize) {
+		int newPosition = 0;
+		Entry<K, V>[] newEntries = new Entry[newSize];
+
+		for (int i = 0; i < position && i < newSize; i++) {
+			Entry<K, V> entry = entries[i];
+			if (entry != null) {
+				newEntries[i] = entry;
+				newPosition++;
+			}
+		}
+		entries = newEntries;
+		position = newPosition;
+	}
+
+	private void grow() {
+		resize(entries.length + SIZE);
+	}
+
+	/**
+	 * This will be used after removing entries to make sure we aren't using up
+	 * excessive space, though it'll come in handy later.
+	 */
+	private void shrink() {
+		// TODO
+	}
+
 }
