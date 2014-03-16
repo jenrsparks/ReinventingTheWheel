@@ -1,7 +1,7 @@
 package net.ewenicorn.clone.java.util;
 
 /**
- * @author jmagas
+ * @author jmagas <jen.r.magas@gmail.com>
  * 
  * @see http://docs.oracle.com/javase/7/docs/api/java/util/Hashtable.html
  * 
@@ -168,5 +168,35 @@ public class Hashtable<K, V> {
 	 */
 	public boolean contains(K key) {
 		return get(key) != null;
+	}
+
+	/**
+	 * Next we need to implement the remove functionality, which will leverage
+	 * the aforementioned 'shrink' method to make sure we aren't going too big
+	 * with our space usage.
+	 */
+	public void remove(K key) {
+		int foundPosition = -1;
+
+		if (contains(key)) {
+			/** Locate the position to empty and backfill from */
+			for (int i = 0; i < position; i++) {
+				if (entries[i].getKey().equals(key)) {
+					foundPosition = i;
+					break;
+				}
+			}
+
+			/**
+			 * Shift the values backwards to fill in the found location and move
+			 * the rest into the new placements.
+			 */
+			for (int i = foundPosition; i < position - 1; i++) {
+				entries[i] = entries[i + 1];
+			}
+
+			/** decrement the position value to reflect the new size of entries */
+			position--;
+		}
 	}
 }

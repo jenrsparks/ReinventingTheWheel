@@ -1,8 +1,10 @@
 package net.ewenicorn.clone.java.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +15,17 @@ public class HashtableTest {
 
 	@Before
 	public void setUp() {
-		table = new Hashtable<String, Integer>();
+		table = new Hashtable<String, Integer>(10);
 	}
 
 	@Test
 	public void testHashtable() {
+		table = new Hashtable<String, Integer>();
 		assertNotNull(table);
 	}
 
 	@Test
 	public void testHashtableInt() {
-		table = new Hashtable<String, Integer>(10);
 		assertNotNull(table);
 	}
 
@@ -69,12 +71,46 @@ public class HashtableTest {
 	}
 
 	@Test
+	public void testContains() {
+		String key = "Key";
+		Integer val = Integer.valueOf(5);
+		table.put(key, val);
+		assertTrue(table.contains(key));
+	}
+
+	@Test
+	public void testContainsNotFond() {
+		String key = "Key";
+		assertFalse(table.contains(key));
+	}
+
+	@Test
 	public void testRemoveNotFound() {
-		// TODO
+		String key = "Key";
+		table.remove(key);
+
+		assertNull(table.get(key));
 	}
 
 	@Test
 	public void testRemoveFound() {
-		// TODO
+		String key = "Key";
+		table.put(key, Integer.valueOf(5));
+		table.remove(key);
+
+		assertNull(table.get(key));
+	}
+
+	@Test
+	public void testRemoveSecondFound() {
+		table = new Hashtable<String, Integer>(2);
+		String key = "Key";
+		Integer val = Integer.valueOf(5);
+		table.put("Arbitrary", val);
+		table.put(key, val);
+
+		table.remove(key);
+
+		assertNull(table.get(key));
 	}
 }
