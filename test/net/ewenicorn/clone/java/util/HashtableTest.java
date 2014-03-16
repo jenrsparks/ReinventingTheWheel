@@ -34,6 +34,25 @@ public class HashtableTest {
 	}
 
 	@Test
+	public void testPutPastInitialAllocation() {
+		table = new Hashtable<String, Integer>(1);
+		table.put("1", Integer.valueOf(1));
+		table.put("2", Integer.valueOf(2));
+		assertEquals(2, table.size());
+	}
+
+	@Test
+	public void testPutTwice() {
+		String key = "Key";
+		Integer val = Integer.valueOf(10);
+		table = new Hashtable<String, Integer>(3);
+		table.put(key, val);
+		table.put(key, val);
+
+		assertEquals(1, table.size());
+	}
+
+	@Test
 	public void testGetFound() {
 		String key = "Test";
 		Integer val = Integer.getInteger("12");
@@ -50,10 +69,12 @@ public class HashtableTest {
 	}
 
 	@Test
-	public void testPutPastInitialAllocation() {
-		table = new Hashtable<String, Integer>(1);
-		table.put("1", Integer.valueOf(1));
-		table.put("2", Integer.valueOf(2));
-		assertEquals(2, table.size());
+	public void testRemoveNotFound() {
+		// TODO
+	}
+
+	@Test
+	public void testRemoveFound() {
+		// TODO
 	}
 }

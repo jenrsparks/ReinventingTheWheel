@@ -98,7 +98,9 @@ public class Hashtable<K, V> {
 		 * entries array! We'll need a contains(key) check added to the internal
 		 * Entry object.
 		 */
-		entries[position++] = new Entry<K, V>(key, value);
+		if (!this.contains(key)) {
+			entries[position++] = new Entry<K, V>(key, value);
+		}
 	}
 
 	/**
@@ -160,4 +162,11 @@ public class Hashtable<K, V> {
 		// TODO
 	}
 
+	/**
+	 * Easily implemented - we'll simply use get to see if a null value is
+	 * returned; if so, that means the key isn't contained in the entries array.
+	 */
+	public boolean contains(K key) {
+		return get(key) != null;
+	}
 }
